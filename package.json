@@ -1,6 +1,6 @@
 {
   "name": "iobroker.tapo",
-  "version": "0.2.0e",
+  "version": "0.2.0-e",
   "description": "Adapter for TP-Link Tapo",
   "author": {
     "name": "TA2k",

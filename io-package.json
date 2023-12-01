@@ -1,9 +1,9 @@
 {
   "common": {
     "name": "tapo",
-    "version": "0.2.0e",
+    "version": "0.2.0-e",
     "news": {
-      "0.2.0e": {
+      "0.2.0-e": {
         "en": "elek76's sandbox",
         "de": "elek76's sandbox"
       },
