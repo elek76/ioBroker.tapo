@@ -1,8 +1,12 @@
 {
   "common": {
     "name": "tapo",
-    "version": "0.2.0",
+    "version": "0.2.0e",
     "news": {
+      "0.2.0e": {
+        "en": "elek76's sandbox",
+        "de": "elek76's sandbox"
+      },
       "0.2.0": {
         "en": "Fix support for latest Camera firmware",
         "de": "Unterstützung für neuste Kamera Firmware hinzugefügt"
