@@ -585,12 +585,12 @@ class Tapo extends utils.Adapter {
             if (this.deviceObjects[id].getEnergyUsage) {
               this.log.debug("Receive energy usage");
               const energyUsage = await this.deviceObjects[id].getEnergyUsage();
-              this.log.debug(JSON.stringify(energyUsage));
+              this.log.debug(`energyUsage: ${JSON.stringify(energyUsage)}`);
               this.json2iob.parse(id, energyUsage);
             }
           })
-          .catch(() => {
-            this.log.error("52 - Get Device Info failed");
+          .catch((ex) => {
+            this.log.error(`52 - Get Device Info failed: ${ex}`);
 
             this.deviceObjects[id]._connected = false;
           });
