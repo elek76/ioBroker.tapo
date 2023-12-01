@@ -178,7 +178,7 @@ class Tapo extends utils.Adapter {
       await this.setStateAsync("mfaId", "", true);
     }
     const md5 = import_crypto.default.createHash("md5").update(body).digest("base64");
-    this.log.debug(md5);
+    this.log.debug(`login body md5: ${md5}`);
     const content = md5 + "\n9999999999\nfee66616-58dd-4bcb-be79-fe092d800a21\n/" + path;
     const signature = import_crypto.default.createHmac("sha1", this.secret).update(content).digest("hex");
     await this.requestClient({
@@ -194,7 +194,7 @@ class Tapo extends utils.Adapter {
       data: body
     }).then(async (res) => {
       var _a, _b;
-      this.log.debug(JSON.stringify(res.data));
+      this.log.debug(`res.data: ${JSON.stringify(res.data)}`);
       if (res.data.error_code) {
         this.log.error(JSON.stringify(res.data));
         return;
@@ -265,9 +265,11 @@ class Tapo extends utils.Adapter {
   async getDeviceList() {
     const body = '{"index":0,"deviceTypeList":["SMART.TAPOBULB","SMART.TAPOPLUG","SMART.IPCAMERA","SMART.TAPOHUB","SMART.TAPOSENSOR","SMART.TAPOSWITCH"],"limit":30}';
     const md5 = import_crypto.default.createHash("md5").update(body).digest("base64");
-    this.log.debug(md5);
+    this.log.debug(`getDeviceList body md5: ${md5}`);
     const content = md5 + "\n9999999999\nfee66616-58dd-4bcb-be79-fe092d800a21\n/api/v2/common/getDeviceListByPage";
+    this.log.debug(`getDeviceList content: ${content}`);
     const signature = import_crypto.default.createHmac("sha1", this.secret).update(content).digest("hex");
+    this.log.debug(`getDeviceList signature: ${signature}`);
     await this.requestClient({
       method: "post",
       url: `https://n-euw1-wap-gw.tplinkcloud.com/api/v2/common/getDeviceListByPage?token=${this.session.token}&termID=${this.termId}&appVer=2.8.21&locale=de_DE&appName=TP-Link_Tapo_iOS&netType=wifi&model=iPhone10%2C5&termName=iPhone&termMeta=3&brand=TPLINK&ospf=iOS%2014.8`,
@@ -282,8 +284,8 @@ class Tapo extends utils.Adapter {
       data: body
     }).then(async (res) => {
       var _a, _b;
-      this.log.debug(`res: ${JSON.stringify(res)}`);
-      this.log.debug(`res.data: ${JSON.stringify(res.data)}`);
+      this.log.debug(`getDeviceList requestClient then res: ${JSON.stringify(res)}`);
+      this.log.debug(`getDeviceList requestClient then res.data: ${JSON.stringify(res.data)}`);
       if (res.data.error_code) {
         this.log.error(JSON.stringify(res.data));
         return;
@@ -464,7 +466,7 @@ class Tapo extends utils.Adapter {
         }
       }
     }).catch((error) => {
-      this.log.warn(error);
+      this.log.error(`getDeviceList requestClient: ${error}`);
       error.response && this.log.error(JSON.stringify(error.response.data));
     });
     await this.setObjectNotExistsAsync("deviceList", {
