@@ -249,7 +249,7 @@ class Tapo extends utils.Adapter {
         return;
       }
       this.session = res.data.result;
-      if (this.session.token) {
+      if (this.session != undefined && this.session.token) {
         this.log.info("Login succesfull");
         this.setState("info.connection", true, true);
       } else {
@@ -282,7 +282,8 @@ class Tapo extends utils.Adapter {
       data: body
     }).then(async (res) => {
       var _a, _b;
-      this.log.debug(JSON.stringify(res.data));
+      this.log.debug(`res: ${JSON.stringify(res)}`);
+      this.log.debug(`res.data: ${JSON.stringify(res.data)}`);
       if (res.data.error_code) {
         this.log.error(JSON.stringify(res.data));
         return;
@@ -421,6 +422,7 @@ class Tapo extends utils.Adapter {
               this.log.error(JSON.stringify(res2.data));
             } else {
               result = (_f = (_e = (_d = (_c = (_b2 = (_a2 = res2.data.result) == null ? void 0 : _a2.responseData) == null ? void 0 : _b2.result) == null ? void 0 : _c.responses[0]) == null ? void 0 : _d.result) == null ? void 0 : _e.network) == null ? void 0 : _f.wan;
+              this.log.debug(`result before setting ip: ${JSON.stringify(result)}`);
               result.ip = result.ipaddr;
               this.log.info(`Device ${id} has IP ${result.ip}`);
               delete result[".name"];
@@ -561,11 +563,11 @@ class Tapo extends utils.Adapter {
         if (this.deviceObjects[id].getEnergyUsage) {
           this.log.debug("Receive energy usage");
           const energyUsage = await this.deviceObjects[id].getEnergyUsage();
-          this.log.debug(JSON.stringify(energyUsage));
+          this.log.debug(`energyUsage: ${JSON.stringify(energyUsage)}`);
           this.json2iob.parse(id, energyUsage);
         }
-      }).catch(() => {
-        this.log.error("52 - Get Device Info failed");
+      }).catch((ex) => {
+        this.log.error(`52 - Get Device Info failed: ${JSON.stringify(ex)}`);
         this.deviceObjects[id]._connected = false;
       });
     }).catch(() => {
